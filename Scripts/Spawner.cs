@@ -5,7 +5,7 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     [SerializeField] private Transform _spawnPoints;
-    [SerializeField] private GameObject _enemyToCreate;
+    [SerializeField] private GameObject _enemyPrefab;
     [SerializeField] private int _amount;
     [SerializeField] private int _radius;
 
@@ -33,9 +33,10 @@ public class Spawner : MonoBehaviour
         {
             for (int i = 0; i < _amount; i++)
             {
-                GameObject newEnemy = Instantiate(_enemyToCreate, _spawners[currentSpawner].position, Quaternion.identity);
+                GameObject newEnemy = Instantiate(_enemyPrefab, _spawners[currentSpawner].position, Quaternion.identity);
+                Vector3 radiusDistance= new Vector3(_radius * Mathf.Cos(angleStep * (i + 1) * Mathf.Deg2Rad), _radius * Mathf.Sin(angleStep * (i + 1) * Mathf.Deg2Rad), 0);
 
-                newEnemy.transform.position += new Vector3(_radius * Mathf.Cos(angleStep * (i + 1) * Mathf.Deg2Rad), _radius * Mathf.Sin(angleStep * (i + 1) * Mathf.Deg2Rad), 0);
+                newEnemy.transform.position += radiusDistance;
             }
 
             yield return waitForTwoSeconds;
